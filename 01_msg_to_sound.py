@@ -80,7 +80,7 @@ transmitWav = []
 
 
 def write_wav(samples):
-    write("output.wav", sampleRate, samples.astype(np.int16))
+    write(filename, sampleRate, samples.astype(np.int16))
 
 def createPulse(isHigh):
     if isHigh:
@@ -99,5 +99,3 @@ transmitWav = np.array(transmitWav)
 
 
 write_wav(transmitWav)
-
-sr = wave.open("output.wav", "r")
