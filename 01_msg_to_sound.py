@@ -49,7 +49,7 @@ morse_values = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '
 
 
 msg = input("what is your message: ")
-filename = "output.wav"
+filename = "02_sound.wav"
 
 transmittingString = ""
 
@@ -71,7 +71,7 @@ transmittingString = "0"*14 + transmittingString + "0"*14
 # EDITABLE PARAMETERS
 freq = 1760
 sampleRate = 44100
-pulseDur = 0.3
+pulseDur = 0.1
 
 samplesPerPulse = int(pulseDur*sampleRate)
 
