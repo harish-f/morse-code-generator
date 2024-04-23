@@ -65,8 +65,6 @@ for char in msg.upper():
 
 transmittingString = transmittingString.strip("0")
 
-# Adds a 14 period gap at the front and back
-transmittingString = "0"*14 + transmittingString + "0"*14
 
 # EDITABLE PARAMETERS
 freq = 1760
@@ -96,6 +94,9 @@ for i in transmittingString:
     transmitWav += createPulse(int(i))
 
 transmitWav = np.array(transmitWav)
+
+plt.plot(transmitWav)
+plt.show()
 
 
 write_wav(transmitWav)
