@@ -1,4 +1,3 @@
-import wave
 import numpy as np
 from math import sin
 from scipy.io.wavfile import write
@@ -65,7 +64,6 @@ for char in msg.upper():
 
 transmittingString = transmittingString.strip("0")
 
-
 # EDITABLE PARAMETERS
 freq = 1760
 sampleRate = 44100
@@ -95,8 +93,9 @@ for i in transmittingString:
 
 transmitWav = np.array(transmitWav)
 
-plt.plot(transmitWav)
-plt.show()
+# uncomment to plot a graph of the signal
+# plt.plot(transmitWav)
+# plt.show()
 
 
 write_wav(transmitWav)
