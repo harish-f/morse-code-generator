@@ -2,7 +2,6 @@ import numpy as np
 from math import sin
 from scipy.io.wavfile import write
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 morse = { 'A':'.-',
@@ -47,11 +46,25 @@ morse_values = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '
                 '-----', '.----', '..---', '...--', '....-', '.....', '-....', '--...', '---..', '----.']
 
 
+
+# EDITABLE PARAMETERS
+freq = 1760 # frequency of your morse code signal
+sampleRate = 44100 # sample rate of your output sound file
+pulseDur = 0.1 # length of each short pulse
+filename = "02_sound.wav" # file to write morse code to
+
+
+samplesPerPulse = int(pulseDur*sampleRate)
+
+
 msg = input("what is your message: ")
-filename = "02_sound.wav"
+
+
 
 transmittingString = ""
 
+# representing morse code as 1 and 0 in transmitting string, to represent high and low signal respectively
+# '.' becomes 1 | '-' becomes 111 | any spaces are 0
 for char in msg.upper():
     if char == " ":
         transmittingString += "0000"
@@ -64,20 +77,14 @@ for char in msg.upper():
 
 transmittingString = transmittingString.strip("0")
 
-# EDITABLE PARAMETERS
-freq = 1760
-sampleRate = 44100
-pulseDur = 0.1
 
-samplesPerPulse = int(pulseDur*sampleRate)
-
-
-transmitWav = []
-
-
+# simple function to write samples to a wav file
 def write_wav(samples):
     write(filename, sampleRate, samples.astype(np.int16))
 
+# takes boolean parameter isHigh
+# if isHigh is true, a short high audio pulse is created
+# if isHigh is false, an empty array, or rather a low signal, is created
 def createPulse(isHigh):
     if isHigh:
         res = []
@@ -88,14 +95,18 @@ def createPulse(isHigh):
         return [0] * samplesPerPulse
 
 
+# creating array of transmitted samples
+transmitWav = []
 for i in transmittingString:
     transmitWav += createPulse(int(i))
 
 transmitWav = np.array(transmitWav)
 
-# uncomment to plot a graph of the signal
-# plt.plot(transmitWav)
-# plt.show()
-
-
 write_wav(transmitWav)
+
+# plots a graph of a small group of samples of the signal for analysis of waveform
+# uncomment if not needed
+plt.plot([x/44100 for x in range(len(transmitWav[0:300]))], [x/2 for x in transmitWav[0:300]])
+plt.xlabel("time / s")
+plt.ylabel("signal / arbitrary units")
+plt.show()
