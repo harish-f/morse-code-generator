@@ -22,7 +22,7 @@ def plot_sound_envelope(filename, start, end):
     sr, data = wavfile.read(filename)
     
     
-    data = data[int(start*44100):int(end*44100)]
+    data = data[int(start*44100):int(end*44100)] # taking out specifically the samples of audio file that are required, based on start and end values
     time = [x/sr for x in range(int(start*sr), int(start*sr) + len(data))]
     
     plt.plot(time, data)
@@ -38,12 +38,12 @@ def plot_fft(filename):
     # Read the audio file
     sr, data = wavfile.read(filename)
     
-    # Compute the FFT
+    # Compute FFT
     fft_output = fft(data)
     fft_magnitude = np.abs(fft_output)
     freqs = fftfreq(len(fft_magnitude), 1/sr)
     
-    # Plot the FFT
+    # Plot the FFT graph
     plt.figure(figsize=(12, 6))
     plt.plot([x for x in freqs[:len(fft_magnitude)//15]], fft_magnitude[:len(fft_magnitude)//15])  # Plot only positive frequencies
     print(freqs)
@@ -53,10 +53,15 @@ def plot_fft(filename):
     plt.grid(True)
     plt.show()
 
-# Specify the filename of the sound file
+# Comment out the unused file
+# if analysing 02_sound.wav, comment out 'filename = '06_received_sound.wav'
 filename = '02_sound.wav'
 filename = '06_received_sound.wav'
 
-plot_sound_period(filename)
-# plot_fft(filename)
-# plot_sound_envelope("06_received_sound.wav", start=3, end=6.5)
+# comment out functions if they aren't needed
+plot_sound_period(filename) # plot a small group of samples, just to analyse the sine wave of the signal
+plot_fft(filename) # plot the fft graph of the signal
+
+# modify start and end values as needed
+# Current values are for obtaining 1st word of our received file
+plot_sound_envelope(filename, start=3, end=6.5) # plot the overall sound envelope, used to decode morse message
