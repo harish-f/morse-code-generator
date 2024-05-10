@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 from scipy.fft import *
+from math import cos, pi
 
 # plot a small sample of the audio file
 def plot_sound_period(filename):
@@ -12,7 +13,12 @@ def plot_sound_period(filename):
     plt.title('Sound Waveform')
     
     # using frames 150 to 300 to ignore any possible static at the start due to recording issues
-    plt.plot([150/sr + x/sr for x in range(150,300)], data[150:300])
+    plt.plot([150/sr + x/sr for x in range(0,150)], data[150:300])
+    
+    # insert overlay of cosine graph for further analysis of graph
+    # x/sr is required as x value is the sample index and x/sr expresses it in seconds
+    plt.plot([150/sr + x/sr for x in range(0,150)], [9261*cos(2*pi* 2351 * (x/sr -0.006688+0.0001387)) -1926 for x in range(150,300)])
+    
     plt.show()
 
 # plot a specific portion of the file, with specified start and end timings
@@ -60,8 +66,8 @@ filename = '06_received_sound.wav'
 
 # comment out functions if they aren't needed
 plot_sound_period(filename) # plot a small group of samples, just to analyse the sine wave of the signal
-plot_fft(filename) # plot the fft graph of the signal
+# plot_fft(filename) # plot the fft graph of the signal
 
 # modify start and end values as needed
 # Current values are for obtaining 1st word of our received file
-plot_sound_envelope(filename, start=3, end=6.5) # plot the overall sound envelope, used to decode morse message
+# plot_sound_envelope(filename, start=3, end=6.5) # plot the overall sound envelope, used to decode morse message
